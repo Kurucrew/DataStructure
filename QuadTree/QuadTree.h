@@ -3,14 +3,14 @@
 class QuadTree
 {
 public:
-	vector<TNode>
-	void BinaryNodePrintPreOrder(Node* pNode);
-	void BinaryNodePrintInOrder(Node* pNode);
-	void BinaryNodePrintPostOrder(Node* pNode);
-	void BinaryNodePrintLevelOrder(Node* pNode);
-	void CreaeBinaryNode(Node* pNode);
-	Node* g_pArray[7];
-	std::queue<Node*> g_Queue;
-	int g_iValue = 0;
+	int m_Width;
+	int m_Height;
+	int m_MaxDepth;
+	Node* m_Root;
+	vector<Node*> g_Array;
+	queue<Node*> g_Queue;
+	int g_val = 0;
+	//Node* g_pArray[7];
+	
 };
 

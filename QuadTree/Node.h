@@ -15,7 +15,7 @@ struct Rect
 class Node
 {
 public:
-		int iDepth;
+		int m_Depth;
 		Node* m_Parent;
 		Rect m_rt;
 		Node* m_Child[4];
