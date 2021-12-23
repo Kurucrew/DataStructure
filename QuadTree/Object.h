@@ -1,22 +1,15 @@
 #pragma once
 #include <iostream>
+#include "Vector2D.h"
 class Object
 {
 public:
-	int m_x;
-	int m_y;
-	Object(int x, int y);
-	~Object();
+	Vector2D m_Pos;
+	Object(int x, int y)
+	{
+		m_Pos.x = x;
+		m_Pos.y = y;
+	}
 
 
 };
-
-Object::Object(int x, int y)
-{
-	m_x = x;
-	m_y = y;
-}
-
-Object::~Object()
-{
-}

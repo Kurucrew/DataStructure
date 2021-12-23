@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include <vector>//재할당 가능한 배열
 #include <queue>
 #include <list>
@@ -7,10 +6,10 @@
 using namespace std;
 struct Rect
 {
-	float x1, y1;
-	float x2, y2;
-	float mx, my;
-	float w, h;
+	Vector2D p1;
+	Vector2D p2;
+	Vector2D mp;
+	Vector2D size;
 };
 class Node
 {

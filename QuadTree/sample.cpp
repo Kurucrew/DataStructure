@@ -3,19 +3,12 @@
 void main()
 {
 	QuadTree tree;
-	Node* pRoot = new Node(0);
-	tree.g_pArray[0] = pRoot;
-	pRoot->iDepth = 0;
-	tree.CreaeBinaryNode(pRoot);
-	tree.BinaryNodePrintPreOrder(pRoot);
-	std::cout << std::endl;
-	tree.BinaryNodePrintInOrder(pRoot);
-	std::cout << std::endl;
-	tree.BinaryNodePrintPostOrder(pRoot);
-	std::cout << std::endl;
-
-	tree.g_Queue.push(pRoot);
-	tree.BinaryNodePrintLevelOrder(pRoot);
-
-	delete pRoot;
+	tree.Init(100, 100, 2);
+	for (int i = 0; i < 10; i++)
+	{
+		int x = rand() % 100;
+		int y = rand() % 100;
+		tree.Addobject(x, y);
+	}
+	tree.PrintList(tree.m_Root);
 }

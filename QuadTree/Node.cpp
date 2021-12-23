@@ -2,7 +2,7 @@
 
 bool Node::Isrect(int x, int y)
 {
-	if (m_rt.x1 <= x && m_rt.x2 >= x && m_rt.y1 <= y && m_rt.y2 >= y)
+	if (m_rt.p1.x <= x && m_rt.p2.x >= x && m_rt.p1.y <= y && m_rt.p2.y >= y)
 	{
 		return true;
 	}
@@ -29,14 +29,14 @@ Node::Node()
 }
 Node::Node(float x, float y, float w, float h) : Node()
 {
-	m_rt.x1 = x;
-	m_rt.y1 = y;
-	m_rt.x2 = x + w;
-	m_rt.y2 = y + h;
-	m_rt.mx = x + (w / 2.0f);
-	m_rt.my = y + (h / 2.0f);
-	m_rt.w = w;
-	m_rt.h = h;
+	m_rt.p1.x = x;
+	m_rt.p1.y = y;
+	m_rt.p2.x = x + w;
+	m_rt.p2.y = y + h;
+	m_rt.mp.x = x + (w / 2.0f);
+	m_rt.mp.y = y + (h / 2.0f);
+	m_rt.size.x = w;
+	m_rt.size.y = h;
 	m_Child[0] = nullptr;
 	m_Child[1] = nullptr;
 	m_Child[2] = nullptr;
