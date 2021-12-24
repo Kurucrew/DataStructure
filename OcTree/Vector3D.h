@@ -1,4 +1,5 @@
 #pragma once
+#include <math.h>
 struct Float3
 {
 	union
@@ -17,5 +18,14 @@ public:
 	Vector3D(float x, float y, float z);
 	Vector3D(const Vector3D& v);
 	Vector3D operator + (const Vector3D& v);
+	Vector3D operator - (const Vector3D& v);
+	Vector3D operator * (float vel);
+	bool operator == (const Vector3D& v);
+	Vector3D operator != (const Vector3D& v);
+	// Á¤±ÔÈ­
+	Vector3D Normalize();
+	// Å©±â
+	float Size();
+	// º¤ÅÍ »¬¼À, ½ºÄ®¶ó °ö¼À
 };
 
