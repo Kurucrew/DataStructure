@@ -21,19 +21,22 @@ void OcTree::Buildtree(Node* parent)
 {
 	if (parent->m_Depth == m_MaxDepth)
 		return;
-	float fz = parent->m_rt.p1.z;
+	float fz = parent->m_Box.p1.z;
+	float SizeX = parent->m_Box.size.x / 2.0f;
+	float SizeY = parent->m_Box.size.y / 2.0f;
+	float SizeZ = parent->m_Box.size.z / 2.0f;
 	int num = 0;
 	for (int i = 0; i < 2; i++)
 	{
-		parent->m_Child[num] = Create(parent, parent->m_rt.p1.x, parent->m_rt.p1.y, fz, parent->m_rt.size.x / 2.0f, parent->m_rt.size.y / 2.0f, parent->m_rt.size.z / 2.0f);
+		parent->m_Child[num] = Create(parent, parent->m_Box.p1.x, parent->m_Box.p1.y, fz, SizeX , SizeY , SizeZ );
 		Buildtree(parent->m_Child[num++]);
-		parent->m_Child[num] = Create(parent, parent->m_rt.mp.x, parent->m_rt.p1.y, fz, parent->m_rt.size.x / 2.0f, parent->m_rt.size.y / 2.0f, parent->m_rt.size.z / 2.0f);
+		parent->m_Child[num] = Create(parent, parent->m_Box.mp.x, parent->m_Box.p1.y, fz, SizeX , SizeY , SizeZ );
 		Buildtree(parent->m_Child[num++]);
-		parent->m_Child[num] = Create(parent, parent->m_rt.mp.x, parent->m_rt.mp.y, fz, parent->m_rt.size.x / 2.0f, parent->m_rt.size.y / 2.0f, parent->m_rt.size.z / 2.0f);
+		parent->m_Child[num] = Create(parent, parent->m_Box.mp.x, parent->m_Box.mp.y, fz, SizeX , SizeY , SizeZ );
 		Buildtree(parent->m_Child[num++]);
-		parent->m_Child[num] = Create(parent, parent->m_rt.p1.x, parent->m_rt.mp.y, fz, parent->m_rt.size.x / 2.0f, parent->m_rt.size.y / 2.0f, parent->m_rt.size.z / 2.0f);
+		parent->m_Child[num] = Create(parent, parent->m_Box.p1.x, parent->m_Box.mp.y, fz, SizeX , SizeY , SizeZ );
 		Buildtree(parent->m_Child[num++]);
-		fz = parent->m_rt.mp.z;
+		fz = parent->m_Box.mp.z;
 	}
 }
 bool OcTree::Addobject(int fx, int fy, int fz)
@@ -53,7 +56,7 @@ Node* OcTree::Findnode(Node* node, int x, int y, int z)
 		{
 			if (node->m_Child[i] != nullptr)
 			{
-				if (node->m_Child[i]->Isrect(x, y ,z))
+				if (node->m_Child[i]->IsBox(x, y ,z))
 				{
 					g_Queue.push(node->m_Child[i]);
 					break;

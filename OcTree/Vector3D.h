@@ -21,7 +21,7 @@ public:
 	Vector3D operator - (const Vector3D& v);
 	Vector3D operator * (float vel);
 	bool operator == (const Vector3D& v);
-	Vector3D operator != (const Vector3D& v);
+	bool operator != (const Vector3D& v);
 	// 정규화
 	Vector3D Normalize();
 	// 크기

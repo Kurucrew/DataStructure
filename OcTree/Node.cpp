@@ -1,8 +1,8 @@
 #include "Node.h"
 
-bool Node::Isrect(int x, int y, int z)
+bool Node::IsBox(int x, int y, int z)
 {
-	if (m_rt.p1.x <= x && m_rt.p2.x >= x && m_rt.p1.y <= y && m_rt.p2.y >= y && m_rt.p1.z <= y && m_rt.p2.z >= y)
+	if (m_Box.p1.x <= x && m_Box.p2.x >= x && m_Box.p1.y <= y && m_Box.p2.y >= y && m_Box.p1.z <= y && m_Box.p2.z >= y)
 	{
 		return true;
 	}
@@ -33,18 +33,18 @@ Node::Node()
 }
 Node::Node(float x, float y, float z, float w, float h, float l) : Node()
 {
-	m_rt.p1.x = x;
-	m_rt.p1.y = y;
-	m_rt.p1.z = z;
-	m_rt.p2.x = x + w;
-	m_rt.p2.y = y + h;
-	m_rt.p2.z = z + l;
-	m_rt.mp.x = x + (w / 2.0f);
-	m_rt.mp.y = y + (h / 2.0f);
-	m_rt.mp.z = z + (l / 2.0f);
-	m_rt.size.x = w;
-	m_rt.size.y = h;
-	m_rt.size.z = l;
+	m_Box.p1.x = x;
+	m_Box.p1.y = y;
+	m_Box.p1.z = z;
+	m_Box.p2.x = x + w;
+	m_Box.p2.y = y + h;
+	m_Box.p2.z = z + l;
+	m_Box.mp.x = x + (w / 2.0f);
+	m_Box.mp.y = y + (h / 2.0f);
+	m_Box.mp.z = z + (l / 2.0f);
+	m_Box.size.x = w;
+	m_Box.size.y = h;
+	m_Box.size.z = l;
 	m_Child[0] = nullptr;
 	m_Child[1] = nullptr;
 	m_Child[2] = nullptr;

@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "Vector3D.h"
+#include "Collision.h"
 class Object
 {
 public:

@@ -54,9 +54,19 @@ bool Vector3D::operator == (const Vector3D& v)
 	}
 	return false;
 }
-Vector3D Vector3D::operator != (const Vector3D& v)
+bool Vector3D::operator != (const Vector3D& v)
 {
-
+	if (fabs(x - v.x) < 0.0001f)
+	{
+		if (fabs(y - v.y) < 0.0001f)
+		{
+			if (fabs(z - v.z) < 0.0001f)
+			{
+				return false;
+			}
+		}
+	}
+	return true;
 }
 float Vector3D::Size()
 {
@@ -65,9 +75,10 @@ float Vector3D::Size()
 }
 Vector3D Vector3D::Normalize()
 {
+	Vector3D ret;
 	float size = 1.0f / Size();
-	x *= size;
-	y *= size;
-	z *= size;
-	return *this;
+	ret.x = x * size;
+	ret.y = y * size;
+	ret.z = z * size;
+	return ret;
 }
