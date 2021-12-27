@@ -8,7 +8,7 @@ public:
 	RECT m_Client;
 	RECT m_Window;
 
-	BOOL  WinRegisterClass(HINSTANCE hInstance);
+	BOOL  SetWinClass(HINSTANCE hInstance);
 	BOOL  SetWindow(const WCHAR* szTitle = L"Sample",
 		int iWidth = 1024,
 		int iHeight = 768);

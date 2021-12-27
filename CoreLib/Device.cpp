@@ -4,7 +4,8 @@ bool Device::CreateDevice()
 	UINT Flags = 0;
 	D3D_FEATURE_LEVEL fl[]
 	{
-		D3D_FEATURE_LEVEL_11_0
+		D3D_FEATURE_LEVEL_11_0,
+		D3D_FEATURE_LEVEL_10_0,
 	};
 	ZeroMemory(&m_SwapChainDesc, sizeof(DXGI_SWAP_CHAIN_DESC));
 	m_SwapChainDesc.BufferDesc.Width = m_Client.right;
@@ -26,9 +27,18 @@ bool Device::CreateDevice()
 	}
 
 	ID3D11Texture2D* backBuffer = nullptr;
-	m_pSwapChain->GetBuffer(0, __uuidof(ID3D10Texture2D), (LPVOID*)&backBuffer);
-	m_pd3dDevice->CreateRenderTargetView(backBuffer, NULL, &m_pRenderTargetView);
-	if (backBuffer)backBuffer->Release();
+	m_pSwapChain->GetBuffer(0, 
+		__uuidof(ID3D11Texture2D),
+		(LPVOID*)&backBuffer);
+	m_pd3dDevice->CreateRenderTargetView(
+		backBuffer,
+		NULL, 
+		&m_pRenderTargetView);
+	if (backBuffer)
+	{
+		backBuffer->Release();
+	}
+
 	m_pImmediateContext->OMSetRenderTargets(1, &m_pRenderTargetView, NULL);
 
 	m_ViewPort.TopLeftX = 0;

@@ -13,7 +13,7 @@ LRESULT  CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-BOOL Window::WinRegisterClass(HINSTANCE hInstance)
+BOOL Window::SetWinClass(HINSTANCE hInstance)
 {
     m_hInstance = hInstance;
     // 1, 윈도우 클래스 등록, 허가(운영체제)
