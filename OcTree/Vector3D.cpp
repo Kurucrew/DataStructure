@@ -40,6 +40,15 @@ Vector3D Vector3D::operator * (float vel)
 		return *this;
 	}
 }
+Vector3D Vector3D::operator / (float vel)
+{
+	{
+		this->x /= vel;
+		this->y /= vel;
+		this->z /= vel;
+		return *this;
+	}
+}
 bool Vector3D::operator == (const Vector3D& v)
 {
 	if (fabs(x - v.x) < 0.0001f)

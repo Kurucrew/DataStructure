@@ -20,6 +20,7 @@ public:
 	Vector3D operator + (const Vector3D& v);
 	Vector3D operator - (const Vector3D& v);
 	Vector3D operator * (float vel);
+	Vector3D operator / (float vel);
 	bool operator == (const Vector3D& v);
 	bool operator != (const Vector3D& v);
 	// ¡§±‘»≠

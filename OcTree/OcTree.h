@@ -1,5 +1,5 @@
 #pragma once
-#include "Node.h"
+#include "Node.cpp"
 class OcTree
 {
 public:
@@ -7,14 +7,14 @@ public:
 	int m_Height;
 	int m_Length;
 	int m_MaxDepth;
-	Node* m_Root;
-	queue<Node*> g_Queue;
+	Node<Box>* m_Root;
+	queue<Node<Box>*> g_Queue;
 	int g_val = 0;
 	void Init(int width, int height,int Length, int maxdepth);
-	Node* Create(Node* Parent, float x, float y, float z, float w, float h, float l);
-	void Buildtree(Node* Parent);
-	bool Addobject(int fx, int fy, int fz);
-	Node* Findnode(Node* node, int x, int y, int z);
-	void PrintList(Node* node);
+	Node<Box>* Create(Node<Box>* Parent, float x, float y, float z, float w, float h, float l);
+	void Buildtree(Node<Box>* Parent);
+	bool Addobject(Object* obj);
+	Node<Box>* Findnode(Node<Box>* node, Box bx);
+	void PrintList(Node<Box>* node);
 };
 

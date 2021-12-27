@@ -1,7 +1,7 @@
 #include "OcTree.h"
-Node* OcTree::Create(Node* Parent, float x, float y, float z, float w, float h, float l)
+Node<Box>* OcTree::Create(Node<Box>* Parent, float x, float y, float z, float w, float h, float l)
 {
-	Node* node = new Node(x, y, z, w, h, l);
+	Node<Box>* node = new Node<Box>(x, y, z, w, h, l);
 	if (Parent != nullptr)
 	{
 		node->m_Depth = Parent->m_Depth + 1;
@@ -17,7 +17,7 @@ void OcTree::Init(int Width, int Height, int Length, int Maxdepth)
 	m_Root = Create(nullptr, 0, 0, 0, m_Width, m_Height, m_Length);
 	Buildtree(m_Root);
 }
-void OcTree::Buildtree(Node* parent)
+void OcTree::Buildtree(Node<Box>* parent)
 {
 	if (parent->m_Depth == m_MaxDepth)
 		return;
@@ -28,35 +28,37 @@ void OcTree::Buildtree(Node* parent)
 	int num = 0;
 	for (int i = 0; i < 2; i++)
 	{
-		parent->m_Child[num] = Create(parent, parent->m_Box.p1.x, parent->m_Box.p1.y, fz, SizeX , SizeY , SizeZ );
+		parent->m_Child[num] = Create(parent, parent->m_Box.p1.x, parent->m_Box.p1.y, fz, SizeX, SizeY, SizeZ);
 		Buildtree(parent->m_Child[num++]);
-		parent->m_Child[num] = Create(parent, parent->m_Box.mp.x, parent->m_Box.p1.y, fz, SizeX , SizeY , SizeZ );
+		parent->m_Child[num] = Create(parent, parent->m_Box.mp.x, parent->m_Box.p1.y, fz, SizeX, SizeY, SizeZ);
 		Buildtree(parent->m_Child[num++]);
-		parent->m_Child[num] = Create(parent, parent->m_Box.mp.x, parent->m_Box.mp.y, fz, SizeX , SizeY , SizeZ );
+		parent->m_Child[num] = Create(parent, parent->m_Box.mp.x, parent->m_Box.mp.y, fz, SizeX, SizeY, SizeZ);
 		Buildtree(parent->m_Child[num++]);
-		parent->m_Child[num] = Create(parent, parent->m_Box.p1.x, parent->m_Box.mp.y, fz, SizeX , SizeY , SizeZ );
+		parent->m_Child[num] = Create(parent, parent->m_Box.p1.x, parent->m_Box.mp.y, fz, SizeX, SizeY, SizeZ);
 		Buildtree(parent->m_Child[num++]);
 		fz = parent->m_Box.mp.z;
 	}
 }
-bool OcTree::Addobject(int fx, int fy, int fz)
+bool OcTree::Addobject(Object* obj)
 {
-	Node* fNode = Findnode(m_Root, fx, fy, fz);
+	Node<Box>* fNode = Findnode(m_Root, obj->m_box);
 	if (fNode != nullptr)
 	{
-		fNode->Addobject(fx, fy, fz);
+		fNode->Addobject(obj);
 		return true;
 	}
 	return false;
 }
-Node* OcTree::Findnode(Node* node, int x, int y, int z)
+Node<Box>* OcTree::Findnode(Node<Box>* node, Box bx)
 {
 	do {
 		for (int i = 0; i < 8; i++)
 		{
 			if (node->m_Child[i] != nullptr)
 			{
-				if (node->m_Child[i]->IsBox(x, y ,z))
+				Box ib;
+				CollisionType ret = Collision::ObjToObj(node->m_Child[i]->m_Box, bx);
+				if (ret == RECT_IN)
 				{
 					g_Queue.push(node->m_Child[i]);
 					break;
@@ -69,7 +71,7 @@ Node* OcTree::Findnode(Node* node, int x, int y, int z)
 	} while (node);
 	return node;
 }
-void OcTree::PrintList(Node* node)
+void OcTree::PrintList(Node<Box>* node)
 {
 	if (node == nullptr) return;
 	for (list<Object*>::iterator iter = node->m_objectList.begin(); iter != node->m_objectList.end(); iter++)

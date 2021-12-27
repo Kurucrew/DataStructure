@@ -1,6 +1,6 @@
 #include "Node.h"
-
-bool Node::IsBox(int x, int y, int z)
+template <class T>
+bool Node<T>::IsBox(int x, int y, int z)
 {
 	if (m_Box.p1.x <= x && m_Box.p2.x >= x && m_Box.p1.y <= y && m_Box.p2.y >= y && m_Box.p1.z <= y && m_Box.p2.z >= y)
 	{
@@ -8,11 +8,13 @@ bool Node::IsBox(int x, int y, int z)
 	}
 	return false;
 }
-void Node::Addobject(int x, int y, int z)
+template <class T>
+void Node<T>::Addobject(Object* obj)
 {
-	m_objectList.push_back(new Object(x, y, z));
+	m_objectList.push_back(obj);
 }
-Node::Node()
+template <class T>
+Node<T>::Node()
 {
 	m_Parent = nullptr;
 	m_Depth = 0;
@@ -31,7 +33,8 @@ Node::Node()
 	}
 	m_objectList.clear();
 }
-Node::Node(float x, float y, float z, float w, float h, float l) : Node()
+template <class T>
+Node<T>::Node(float x, float y, float z, float w, float h, float l) : Node()
 {
 	m_Box.p1.x = x;
 	m_Box.p1.y = y;
@@ -54,7 +57,8 @@ Node::Node(float x, float y, float z, float w, float h, float l) : Node()
 	m_Child[6] = nullptr;
 	m_Child[7] = nullptr;
 }
-Node::~Node()
+template <class T>
+Node<T>::~Node()
 {
 	delete m_Child[0];
 	delete m_Child[1];
