@@ -1,7 +1,7 @@
 #include "Core.h"
 bool Core::CoreInit()
 {
-	CreateDevice();
+	InitDevice();
 	Init();
 	return true;
 }
@@ -12,7 +12,7 @@ bool Core::CoreFrame()
 }
 bool Core::CoreRender()
 {
-	float color[4] = { 0.255f, 0.255f, 0.255f, 1.0f };
+	float color[4] = { 0.2f, 0.13f, 0.22f, 1.0f };
 	m_pImmediateContext->ClearRenderTargetView(m_pRenderTargetView, color);
 	Render();
 	m_pSwapChain->Present(0, 0);
@@ -34,4 +34,12 @@ bool Core::GameRun()
 	}
 	CoreRelease();
 	return true;
+}
+Core::Core()
+{
+
+}
+Core::~Core()
+{
+
 }

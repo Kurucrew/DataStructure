@@ -1,0 +1,4 @@
+float4 VS(float2 p:POSITION) : sv_POSITION
+{
+	return float4(p.x, p.y, 0.0f, 1.0f);
+}

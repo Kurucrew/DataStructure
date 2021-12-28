@@ -25,14 +25,17 @@ bool Device::CreateDevice()
 	{
 		return false;
 	}
-
+	return true;
+}
+bool Device::CreateRenderTargetView()
+{
 	ID3D11Texture2D* backBuffer = nullptr;
-	m_pSwapChain->GetBuffer(0, 
+	m_pSwapChain->GetBuffer(0,
 		__uuidof(ID3D11Texture2D),
 		(LPVOID*)&backBuffer);
 	m_pd3dDevice->CreateRenderTargetView(
 		backBuffer,
-		NULL, 
+		NULL,
 		&m_pRenderTargetView);
 	if (backBuffer)
 	{
@@ -41,6 +44,10 @@ bool Device::CreateDevice()
 
 	m_pImmediateContext->OMSetRenderTargets(1, &m_pRenderTargetView, NULL);
 
+	return true;
+}
+bool Device::SetViewPort()
+{
 	m_ViewPort.TopLeftX = 0;
 	m_ViewPort.TopLeftY = 0;
 	m_ViewPort.Width = m_SwapChainDesc.BufferDesc.Width;
@@ -68,4 +75,16 @@ Device::Device()
 	m_pImmediateContext = nullptr;
 	m_pSwapChain = nullptr;
 	m_pRenderTargetView = nullptr;
+}
+Device::~Device()
+{
+
+}
+HRESULT Device::InitDevice()
+{
+	HRESULT hr = S_OK;
+	CreateDevice();
+	CreateRenderTargetView();
+	SetViewPort();
+	return hr;
 }

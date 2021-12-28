@@ -9,9 +9,11 @@ private:
 	bool CoreRelease();
 public:
 	bool GameRun();
-	virtual bool Init() { return true; }
-	virtual bool Frame() { return true; }
-	virtual bool Render() { return true; }
-	virtual bool Release() { return true; }
+	virtual bool Init() { return true; };
+	virtual bool Frame() { return true; };
+	virtual bool Render() { return true; };
+	virtual bool Release() { return true; };
+	Core();
+	virtual ~Core();
 };
 

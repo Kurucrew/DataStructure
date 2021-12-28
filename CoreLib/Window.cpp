@@ -1,4 +1,6 @@
 #include "Window.h"
+RECT g_Client;
+
 LRESULT  CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg)
@@ -54,6 +56,7 @@ BOOL Window::SetWindow(const WCHAR* szTitle,
     }
     GetClientRect(m_hWnd, &m_Client);
     GetWindowRect(m_hWnd, &m_Window);
+    g_Client = m_Client;
 
     ShowWindow(m_hWnd, SW_SHOW);
     return TRUE;
@@ -62,22 +65,22 @@ BOOL Window::SetWindow(const WCHAR* szTitle,
 bool Window::WinRun()
 {
     MSG msg;
-    while (1)
+    while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
     {
-        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-        {
             if (msg.message == WM_QUIT)
             {
-                break;
+                return false;
             }
             TranslateMessage(&msg);
             DispatchMessage(&msg);
-        }
-        else
-        {
-            static int count = 0;
-            count++;
-        }
     }
-    return false;
+    return true;
+}
+Window::Window()
+{
+
+}
+Window::~Window()
+{
+
 }

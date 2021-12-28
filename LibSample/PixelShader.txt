@@ -1,0 +1,4 @@
+float4 PS(float4 p:POSITION) : sv_TARGET
+{
+	return float4(0, 1, 0, 1);
+}
