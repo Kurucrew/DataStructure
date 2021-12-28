@@ -17,18 +17,20 @@ Vector3D::Vector3D(const Vector3D& v)
 }
 Vector3D Vector3D::operator+ (const Vector3D& v)
 {
-	this->x += v.x;
-	this->y += v.y;
-	this->z += v.z;
-	return *this;
+	Vector3D ret;
+	ret.x = this->x + v.x;
+	ret.y = this->y + v.y;
+	ret.z = this->z + v.z;
+	return ret;
 }
 Vector3D Vector3D::operator - (const Vector3D& v)
 {
 	{
-		this->x -= v.x;
-		this->y -= v.y;
-		this->z -= v.z;
-		return *this;
+		Vector3D ret;
+		ret.x = this->x - v.x;
+		ret.y = this->y - v.y;
+		ret.z = this->z - v.z;
+		return ret;
 	}
 }
 Vector3D Vector3D::operator * (float vel)

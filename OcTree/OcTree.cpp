@@ -58,7 +58,7 @@ Node<Box>* OcTree::Findnode(Node<Box>* node, Box bx)
 			{
 				Box ib;
 				CollisionType ret = Collision::ObjToObj(node->m_Child[i]->m_Box, bx);
-				if (ret == RECT_IN)
+				if (ret == RECT_OVERLAP)
 				{
 					g_Queue.push(node->m_Child[i]);
 					break;

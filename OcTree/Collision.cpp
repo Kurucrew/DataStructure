@@ -26,9 +26,9 @@ Box   Collision::UnionObj(Box rt1, Box rt2)
 	bx.p1.y = rt1.p1.y < rt2.p1.y ? rt1.p1.y : rt2.p1.y;
 	bx.p1.z = rt1.p1.z < rt2.p1.z ? rt1.p1.z : rt2.p1.z;
 
-	bx.p2.x = rt1.p2.x < rt2.p2.x ? rt1.p2.x : rt2.p2.x;
-	bx.p2.y = rt1.p2.y < rt2.p2.y ? rt1.p2.y : rt2.p2.y;
-	bx.p2.z = rt1.p2.z < rt2.p2.z ? rt1.p2.z : rt2.p2.z;
+	bx.p2.x = rt1.p2.x < rt2.p2.x ? rt2.p2.x : rt1.p2.x;
+	bx.p2.y = rt1.p2.y < rt2.p2.y ? rt2.p2.y : rt1.p2.y;
+	bx.p2.z = rt1.p2.z < rt2.p2.z ? rt2.p2.z : rt1.p2.z;
 
 	bx.size = bx.p2 - bx.p1;
 	bx.mp = (bx.p1 + bx.p2) / 2.0f;
@@ -69,7 +69,7 @@ CollisionType   Collision::ObjToObj(Box rt1, Box rt2)
 	}
 	if (ib == rt2)
 	{
-		return RECT_IN;
+		return RECT_OVERLAP;
 	}
-	return RECT_OVERLAP;
+	return RECT_IN;
 }

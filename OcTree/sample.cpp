@@ -8,9 +8,9 @@ void main()
 	{
 		Object* obj = new Object();
 		obj->SetPos((float)(rand() % 100), (float)(rand() % 100), (float)(rand() % 100));
-		float hw = (float)(rand() % 5) + 1;
-		float hh = (float)(rand() % 5) + 1;
-		float hl = (float)(rand() % 5) + 1;
+		float hw = (float)(rand() % 4) + 1;
+		float hh = (float)(rand() % 4) + 1;
+		float hl = (float)(rand() % 4) + 1;
 		Vector3D vec;
 		vec.x = obj->m_Pos.x - hw;
 		vec.y = obj->m_Pos.y - hh;
