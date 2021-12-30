@@ -14,6 +14,11 @@ void Node<T>::Addobject(Object* obj)
 	m_objectList.push_back(obj);
 }
 template <class T>
+void Node<T>::AddDobject(Object* obj)
+{
+	m_DobjectList.push_back(obj);
+}
+template <class T>
 Node<T>::Node()
 {
 	m_Parent = nullptr;

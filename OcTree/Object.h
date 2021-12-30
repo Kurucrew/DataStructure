@@ -20,4 +20,5 @@ public:
 	}
 	void   SetPos(float x, float y, float z);
 	void   SetBox(Box rt);
+	void MoveObj(Vector3D vec);
 };

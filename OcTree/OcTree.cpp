@@ -1,4 +1,5 @@
 #include "OcTree.h"
+int OcTree::m_NodeCounter = 0;
 Node<Box>* OcTree::Create(Node<Box>* Parent, float x, float y, float z, float w, float h, float l)
 {
 	Node<Box>* node = new Node<Box>(x, y, z, w, h, l);
@@ -6,6 +7,7 @@ Node<Box>* OcTree::Create(Node<Box>* Parent, float x, float y, float z, float w,
 	{
 		node->m_Depth = Parent->m_Depth + 1;
 	}
+	node->m_Index = m_NodeCounter++;
 	return node;
 }
 void OcTree::Init(int Width, int Height, int Length, int Maxdepth)
@@ -83,5 +85,37 @@ void OcTree::PrintList(Node<Box>* node)
 	for (int i = 0; i < 8; i++)
 	{
 		PrintList(node->m_Child[i]);
+	}
+}
+bool OcTree::AddDobject(Object* obj)
+{
+	Node<Box>* fNode = Findnode(m_Root, obj->m_box);
+	if (fNode != nullptr)
+	{
+		fNode->AddDobject(obj);
+		return true;
+	}
+	return false;
+}
+void OcTree::DelDobject(Node<Box>* node)
+{
+	if (node == nullptr) return;
+	node->m_DobjectList.clear();
+	for (int i = 0; i < 8; i++)
+	{
+		DelDobject(node->m_Child[i]);
+	}
+}
+void OcTree::PrintDObjList(Node<Box>* node)
+{
+	if (node == nullptr) return;
+	for (list<Object*>::iterator iter = node->m_DobjectList.begin(); iter != node->m_DobjectList.end(); iter++)
+	{
+		Object* obj = *iter;
+		cout << "[" << node->m_Index << "]" << obj->m_Pos.x << ":" << obj->m_Pos.y << ":" << obj->m_Pos.z << endl;
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		PrintDObjList(node->m_Child[i]);
 	}
 }
