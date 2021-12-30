@@ -1,13 +1,13 @@
 #include "Node.h"
-template <class T>
-bool Node<T>::IsBox(int x, int y, int z)
-{
-	if (m_Box.p1.x <= x && m_Box.p2.x >= x && m_Box.p1.y <= y && m_Box.p2.y >= y && m_Box.p1.z <= y && m_Box.p2.z >= y)
-	{
-		return true;
-	}
-	return false;
-}
+//template <class T>
+//bool Node<T>::IsBox(int x, int y, int z)
+//{
+//	if (m_Box.p1.x <= x && m_Box.p2.x >= x && m_Box.p1.y <= y && m_Box.p2.y >= y && m_Box.p1.z <= y && m_Box.p2.z >= y)
+//	{
+//		return true;
+//	}
+//	return false;
+//}
 template <class T>
 void Node<T>::Addobject(Object* obj)
 {

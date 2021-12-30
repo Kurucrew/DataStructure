@@ -10,7 +10,6 @@ public:
 	static int m_NodeCounter;
 	Node<Box>* m_Root;
 	queue<Node<Box>*> g_Queue;
-	int g_val = 0;
 	void Init(int width, int height,int Length, int maxdepth);
 	Node<Box>* Create(Node<Box>* Parent, float x, float y, float z, float w, float h, float l);
 	void Buildtree(Node<Box>* Parent);

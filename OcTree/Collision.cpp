@@ -1,24 +1,24 @@
 #include "Collision.h"
-bool   Collision::ObjToPoint(Box rt, int x, int y, int z)
-{
-	if (rt.p1.x <= x && rt.p2.x >= x &&
-		rt.p1.y <= y && rt.p2.y >= y &&
-		rt.p1.z <= z && rt.p2.z >= z)
-	{
-		return true;
-	}
-	return false;
-}
-bool   Collision::ObjToPoint(Box rt, Vector3D v)
-{
-	if (rt.p1.x <= v.x && rt.p2.x >= v.x &&
-		rt.p1.y <= v.y && rt.p2.y >= v.y &&
-		rt.p1.z <= v.z && rt.p2.z >= v.z)
-	{
-		return true;
-	}
-	return false;
-}
+//bool   Collision::ObjToPoint(Box rt, int x, int y, int z)
+//{
+//	if (rt.p1.x <= x && rt.p2.x >= x &&
+//		rt.p1.y <= y && rt.p2.y >= y &&
+//		rt.p1.z <= z && rt.p2.z >= z)
+//	{
+//		return true;
+//	}
+//	return false;
+//}
+//bool   Collision::ObjToPoint(Box rt, Vector3D v)
+//{
+//	if (rt.p1.x <= v.x && rt.p2.x >= v.x &&
+//		rt.p1.y <= v.y && rt.p2.y >= v.y &&
+//		rt.p1.z <= v.z && rt.p2.z >= v.z)
+//	{
+//		return true;
+//	}
+//	return false;
+//}
 Box   Collision::UnionObj(Box rt1, Box rt2)
 {
 	Box bx;
@@ -69,7 +69,7 @@ CollisionType   Collision::ObjToObj(Box rt1, Box rt2)
 	}
 	if (ib == rt2)
 	{
-		return RECT_OVERLAP;
+		return RECT_IN;
 	}
-	return RECT_IN;
+	return RECT_OVERLAP;
 }

@@ -58,9 +58,9 @@ Node<Box>* OcTree::Findnode(Node<Box>* node, Box bx)
 		{
 			if (node->m_Child[i] != nullptr)
 			{
-				Box ib;
+				//Box ib;
 				CollisionType ret = Collision::ObjToObj(node->m_Child[i]->m_Box, bx);
-				if (ret == RECT_OVERLAP)
+				if (ret == RECT_IN)
 				{
 					g_Queue.push(node->m_Child[i]);
 					break;
@@ -79,9 +79,8 @@ void OcTree::PrintList(Node<Box>* node)
 	for (list<Object*>::iterator iter = node->m_objectList.begin(); iter != node->m_objectList.end(); iter++)
 	{
 		Object* obj = *iter;
-		cout << "[" << node->m_Depth << "]" << obj->m_Pos.x << ":" << obj->m_Pos.y << ":" << obj->m_Pos.z;
+		cout << "[" << node->m_Index << "]" << " [" << node->m_Depth << "]" << obj->m_Pos.x << ":" << obj->m_Pos.y << ":" << obj->m_Pos.z << endl;
 	}
-	cout << endl;
 	for (int i = 0; i < 8; i++)
 	{
 		PrintList(node->m_Child[i]);
@@ -112,7 +111,7 @@ void OcTree::PrintDObjList(Node<Box>* node)
 	for (list<Object*>::iterator iter = node->m_DobjectList.begin(); iter != node->m_DobjectList.end(); iter++)
 	{
 		Object* obj = *iter;
-		cout << "[" << node->m_Index << "]" << obj->m_Pos.x << ":" << obj->m_Pos.y << ":" << obj->m_Pos.z << endl;
+		cout << "[" << node->m_Index << "]" << " [" << node->m_Depth << "]" << obj->m_Pos.x << ":" << obj->m_Pos.y << ":" << obj->m_Pos.z << endl;
 	}
 	for (int i = 0; i < 8; i++)
 	{

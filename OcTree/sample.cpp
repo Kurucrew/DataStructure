@@ -22,7 +22,7 @@ void main()
 		obj->SetBox(bx);
 		tree.Addobject(obj);
 	}
-	//동적 오브젝트
+	//동적 오브젝트 생성
 	Object* DObj[10];
 	for (int i = 0; i < 10; i++)
 	{
@@ -44,13 +44,14 @@ void main()
 	DWORD Time = 0;
 	DWORD Timer = 0;
 	static float RunTimer = 10.0f;
+	//동적 오브젝트 이동
 	while (RunTimer > 0)
 	{
 		tree.DelDobject(tree.m_Root);
 		for (int i = 0; i < 10; i++)
 		{
 			Vector3D vec = DObj[i]->m_Pos;
-			vec = vec + Vector3D(1, 0, 0) * 10 * (Timer/ 1000.0f);
+			vec = vec + Vector3D(1, 0, 0) * (Timer / 1000.0f) * 10;
 			DObj[i]->MoveObj(vec);
 			tree.AddDobject(DObj[i]);
 		}
@@ -58,9 +59,9 @@ void main()
 		cout << endl;
 		Time = timeGetTime();
 		Timer = Time - PrevTime;
-		RunTimer -= (Timer / 1000.0f);
 		PrevTime = Time;
+		RunTimer -= (Timer / 1000.0f);
 		Sleep(1000);
 	}
-	
+	tree.PrintList(tree.m_Root);
 }

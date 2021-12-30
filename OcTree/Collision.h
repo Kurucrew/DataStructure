@@ -9,8 +9,8 @@ enum CollisionType
 class Collision
 {
 public:
-	static bool   ObjToPoint(Box rt, int x, int y, int z);
-	static bool   ObjToPoint(Box rt, Vector3D v);
+	/*static bool   ObjToPoint(Box rt, int x, int y, int z);
+	static bool   ObjToPoint(Box rt, Vector3D v);*/
 	static CollisionType    ObjToObj(Box, Box);
 	static Box   UnionObj(Box rt1, Box rt2);
 	static bool  IntersectObj(Box rt1, Box rt2, Box* rt);

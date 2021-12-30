@@ -18,7 +18,7 @@ public:
 		list<Object*> m_DobjectList;
 		void Addobject(Object* obj);
 		void AddDobject(Object* obj);
-		bool IsBox(int x, int y, int z);
+		//bool IsBox(int x, int y, int z);
 		Node();
 		Node(float x, float y, float z, float w, float h, float l);
 		~Node();
