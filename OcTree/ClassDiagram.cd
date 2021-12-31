@@ -3,14 +3,14 @@
   <Class Name="Collision">
     <Position X="2.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAABAAAABAAgAAAAEAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAgAAAAEAAAAAAAAAAA=</HashCode>
       <FileName>Collision.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Node&lt;T&gt;">
-    <Position X="4" Y="0.5" Width="2.75" />
+    <Position X="4" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AACAAAAAAAAAgAAAAAAEACgACAAAIgAAAAAAAAEAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAgAAAAAAEACgACAAAIgAAAAAAAAEAAAA=</HashCode>
       <FileName>Node.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -24,7 +24,7 @@
   <Class Name="OcTree">
     <Position X="4" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgAAEAAAAAAAAoBAAAGAAAADAgAAEDABAATAAAAAAA=</HashCode>
+      <HashCode>AAgAAEAAAAAAAAgBAAAGAAAADAgAAEDABAATAAAAAAA=</HashCode>
       <FileName>OcTree.h</FileName>
     </TypeIdentifier>
   </Class>
