@@ -100,7 +100,7 @@ void main()
 					}
 				}
 				else
-				{
+				{//무언가 데이터를 받았을때 접속한 모든 유저에게 전송
 					list<User>::iterator SendIter;
 					for (SendIter = UserList.begin(); SendIter != UserList.end();)
 					{
