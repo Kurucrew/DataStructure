@@ -4,8 +4,121 @@
 #include <conio.h>
 #include "Packet.h"
 #pragma comment	(lib, "ws2_32.lib")
-using namespace std;
-
+int SendMsg(SOCKET sock, char* msg, WORD type)
+{
+	// 1번 패킷 생성
+	UPACKET packet;
+	ZeroMemory(&packet, sizeof(packet));
+	packet.ph.len = strlen(msg) + PACKET_HEADER_SIZE;
+	packet.ph.type = type;
+	memcpy(packet.msg, msg, strlen(msg));
+	// 2번 패킷 전송 : 운영체제 sendbuffer(short바이트), recvbuffer
+	char* pMsg = (char*)&packet;
+	int iSendSize = 0;
+	do {
+		int iSendByte = send(sock, &pMsg[iSendSize],
+			packet.ph.len - iSendSize, 0);
+		if (iSendByte == SOCKET_ERROR)
+		{
+			if (WSAGetLastError() != WSAEWOULDBLOCK)
+			{
+				return -1;
+			}
+		}
+		iSendSize += iSendByte;
+	} while (iSendSize < packet.ph.len);
+	return iSendSize;
+}
+int SendPacket(SOCKET sock, char* msg, WORD type)
+{
+	// 1번 패킷 생성
+	Packet tPacket(type);
+	tPacket << 999 << "홍길동" << (short)50 << msg;
+	Packet tPacketTest(tPacket);
+	TChatMsg recvdata;
+	ZeroMemory(&recvdata, sizeof(recvdata));
+	tPacketTest >> recvdata.index >> recvdata.name
+		>> recvdata.damage >> recvdata.message;
+	char* pData = (char*)&tPacket.m_uPacket;
+	int iSendSize = 0;
+	do {
+		int iSendByte = send(sock, &pData[iSendSize],
+			tPacket.m_uPacket.ph.len - iSendSize, 0);
+		if (iSendByte == SOCKET_ERROR)
+		{
+			if (WSAGetLastError() != WSAEWOULDBLOCK)
+			{
+				return -1;
+			}
+		}
+		iSendSize += iSendByte;
+	} while (iSendSize < tPacket.m_uPacket.ph.len);
+	return iSendSize;
+}
+int RecvPacketHeader(SOCKET sock, UPACKET& recvPacket)
+{
+	char szRecvBuffer[256] = { 0, };
+	//패킷헤더 받기
+	ZeroMemory(&recvPacket, sizeof(recvPacket));
+	bool bRun = true;
+	int iRecvSize = 0;
+	do {
+		int iRecvByte = recv(sock, szRecvBuffer,
+			PACKET_HEADER_SIZE, 0);
+		iRecvSize += iRecvByte;
+		if (iRecvByte == 0)
+		{
+			closesocket(sock);
+			std::cout << " 접속종료됨." << std::endl;
+			return -1;
+		}
+		if (iRecvByte == SOCKET_ERROR)
+		{
+			int iError = WSAGetLastError();
+			if (iError != WSAEWOULDBLOCK)
+			{
+				std::cout << " 비정상 접속종료됨." << std::endl;
+				return -1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+	} while (iRecvSize < PACKET_HEADER_SIZE);
+	memcpy(&recvPacket.ph, szRecvBuffer, PACKET_HEADER_SIZE);
+	return 1;
+}
+int RecvPacketData(SOCKET sock, UPACKET& recvPacket)
+{
+	// 데이터 받기
+	int iRecvSize = 0;
+	do {
+		int iRecvByte = recv(sock, recvPacket.msg,
+			recvPacket.ph.len - PACKET_HEADER_SIZE - iRecvSize, 0);
+		iRecvSize += iRecvByte;
+		if (iRecvByte == 0)
+		{
+			closesocket(sock);
+			std::cout << " 접속종료됨." << std::endl;
+			return -1;
+		}
+		if (iRecvByte == SOCKET_ERROR)
+		{
+			int iError = WSAGetLastError();
+			if (iError != WSAEWOULDBLOCK)
+			{
+				std::cout << " 비정상 접속종료됨." << std::endl;
+				return -1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+	} while (iRecvSize < recvPacket.ph.len - PACKET_HEADER_SIZE);
+	return 1;
+}
 void main()
 {
 	WSADATA wsa;
@@ -13,71 +126,83 @@ void main()
 	{
 		return;
 	}
-	SOCKET sock = socket(AF_INET, SOCK_STREAM, 0);
-	SOCKADDR_IN SA;
-	ZeroMemory(&SA, sizeof(SA));
-	SA.sin_family = AF_INET;
-	SA.sin_port = htons(10000);
-	SA.sin_addr.s_addr = inet_addr("192.168.0.40");
-	int Ret = connect(sock, (sockaddr*)&SA, sizeof(SA));
-	if (Ret == SOCKET_ERROR) return;
-	cout << "접속성공!" << std::endl;
+	SOCKET sock = socket(AF_INET,
+		SOCK_STREAM, 0); //SOCK_STREAM, SOCK_DGRAM
+			 //IPPROTO_TCP,IPPROTO_UDP
+	SOCKADDR_IN sa;
+	ZeroMemory(&sa, sizeof(sa));
+	sa.sin_family = AF_INET;
+	sa.sin_port = htons(10000);
+	sa.sin_addr.s_addr = inet_addr("192.168.0.40");
+	int iRet = connect(
+		sock,
+		(sockaddr*)&sa,
+		sizeof(sa));
+	if (iRet == SOCKET_ERROR)
+	{
+		return;
+	}
+	std::cout << "접속성공!" << std::endl;
+
 	u_long on = 1;
 	ioctlsocket(sock, FIONBIO, &on);
+
 	char szBuffer[256] = { 0, };
-	int End = 0;
+	int iEnd = 0;
 	while (1)
 	{
 		if (_kbhit() == 1)
 		{
-			int Value = _getche();
-			if (Value == '\r' && strlen(szBuffer) == 0)
+			int iValue = _getche();
+			if (iValue == '\r' && strlen(szBuffer) == 0)
 			{
+				std::cout << "정상 종료됨.." << std::endl;
 				break;
 			}
-			if (Value == '\r')
+			if (iValue == '\r')
 			{
-				int SendByte = send(sock, szBuffer, End, 0);
-				if (SendByte == SOCKET_ERROR)
+				// 방법 1
+				//int iSendByte = SendMsg(sock, szBuffer, PACKET_CHAT_MSG);
+				// 방법 2
+				int iSendByte = SendPacket(sock, szBuffer, PACKET_CHAT_MSG);
+				if (iSendByte < 0)
 				{
-					if (WSAGetLastError() != WSAEWOULDBLOCK)
-					{
-						break;
-					}
+					std::cout << "비정상 종료됨.." << std::endl;
+					break;
 				}
-				End = 0;
+				iEnd = 0;
 				ZeroMemory(szBuffer, sizeof(char) * 256);
 			}
 			else
 			{
-				szBuffer[End++] = Value;
+				szBuffer[iEnd++] = iValue;
 			}
 		}
 		else
 		{
-			char szRecvBuffer[256] = { 0, };
-			int RecvByte = recv(sock, szRecvBuffer, sizeof(szRecvBuffer), 0);
-			if (RecvByte == 0)
+			UPACKET packet;
+			int iRet = RecvPacketHeader(sock, packet);
+			if (iRet < 0) break;
+			if (iRet == 1)
 			{
-				cout << "서버 종료" << endl;
-				break;
-			}
-			if (RecvByte == SOCKET_ERROR)
-			{
-				if (WSAGetLastError() != WSAEWOULDBLOCK)
-				{
-					cout << "서버 비정상 종료" << endl;
-					break;
-				}
-			}
-			else
-			{
-				cout << szRecvBuffer << endl;
+				int iRet = RecvPacketData(sock, packet);
+				if (iRet < 0) break;
+				if (iRet == 0) continue;
+				// 메세지 처리
+				Packet data;
+				data.m_uPacket = packet;
+				TChatMsg recvdata;
+				ZeroMemory(&recvdata, sizeof(recvdata));
+				data >> recvdata.index >> recvdata.name
+					>> recvdata.damage >> recvdata.message;
+				std::cout << "\n" <<
+					"[" << recvdata.name << "]"
+					<< recvdata.message;
 			}
 		}
 	}
-	cout << "접속 죵료" << endl;
+	std::cout << "접속종료" << std::endl;
 	closesocket(sock);
 	WSACleanup();
-	_getch();
+	//_getch();
 }
