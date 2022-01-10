@@ -23,5 +23,6 @@ public:
 	list<Packet> m_packetPool;
 
 	void set(SOCKET Socket, SOCKADDR_IN Addr);
+	int DispatchRead(char* szRecvBuffer, int iRecvByte);
 };
 
