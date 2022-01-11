@@ -31,7 +31,9 @@ int Manager::AddUser(SOCKET sock)
 	{
 		NetUser user;
 		user.set(clientSock, clientAddr);
+		WaitForSingleObject(m_Mutex, INFINITE);
 		UserList.push_back(user);
+		ReleaseMutex(m_Mutex);
 		std::cout
 			<< "ip =" << inet_ntoa(clientAddr.sin_addr)
 			<< "port =" << ntohs(clientAddr.sin_port)
@@ -54,4 +56,21 @@ int Manager::RecvUser(NetUser& user)
 	}
 	user.DispatchRead(szRecvBuffer, iRecvByte);
 	return 1;
+}
+int Manager::Broadcast(NetUser& user)
+{
+	if (user.m_packetPool.size() > 0)
+	{
+		list<Packet>::iterator iter;
+		for (NetUser& send : UserList)
+		{
+			int Ret = SendMsg(send.m_Socket, (*iter).m_uPacket);
+			if (Ret <= 0)
+			{
+				send.m_Connect = false;
+			}
+		}
+		iter = user.m_packetPool.erase(iter);
+	}
+	return -1;
 }
