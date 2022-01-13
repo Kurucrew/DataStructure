@@ -14,6 +14,13 @@ DWORD WINAPI RecvThread(LPVOID param)
 			int iRet = mgr->RecvUser(*userIter);
 			if (iRet <= 0)
 			{
+				list<NetUser>::iterator iter;
+				for (iter = mgr->UserList.begin();
+					iter != mgr->UserList.end();)
+				{
+					mgr->LogoutMsg((*iter).m_Socket, *userIter);
+					iter++;
+				}
 				userIter = mgr->UserList.erase(userIter);
 			}
 			else

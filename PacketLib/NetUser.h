@@ -13,7 +13,7 @@ public:
 	SOCKET m_Socket;
 	SOCKADDR_IN m_Addr;
 	string m_Name;
-	string m_ChattName;
+	char m_ChattName[20] = {0, };
 	unsigned short m_Port;
 	bool m_Connect;
 	

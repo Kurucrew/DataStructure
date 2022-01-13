@@ -40,6 +40,14 @@ int Manager::SendMsg(SOCKET sock, char* msg, WORD type)
 	} while (iSendSize < packet.ph.len);
 	return iSendSize;
 }
+int Manager::LogoutMsg(SOCKET sock, NetUser& user)
+{
+	Packet pac;
+	pac << 0 << user.m_ChattName << 0 << " 님이 나갔습니다";
+	pac.m_uPacket.ph.type = PACKET_CHAT_MSG;
+	SendMsg(sock, pac.m_uPacket);
+	return 0;
+}
 bool Manager::AddUser(SOCKET sock)
 {
 	SOCKADDR_IN clientAddr;
@@ -70,11 +78,13 @@ bool Manager::AddUser(SOCKET sock)
 			NetUser user;
 			user.set(clientSock, clientAddr);
 			WaitForSingleObject(m_Mutex, INFINITE);
-			UserList.push_back(user);
-			ReleaseMutex(m_Mutex);
-			std::cout << UserList.size() << " 명 접속중.." << std::endl;
 			RecvUser(user);
-			
+			TChatMsg data;
+			user.m_packetPool.front() >> data.index >> data.name >> data.damage >> data.message;
+			memcpy(&user.m_ChattName,data.name, sizeof(data.name));
+			UserList.push_back(user);
+			std::cout << UserList.size() << " 명 접속중.." << std::endl;
+			//RecvUser(user);
 			list<NetUser>::iterator userIter;
 			for (userIter = UserList.begin();
 				userIter != UserList.end();)
@@ -89,6 +99,7 @@ bool Manager::AddUser(SOCKET sock)
 					userIter++;
 				}
 			}
+			ReleaseMutex(m_Mutex);
 		}
 		else
 		{
