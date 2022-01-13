@@ -30,7 +30,6 @@ DWORD WINAPI SendThread(LPVOID param)
 	while (1)
 	{
 		WaitForSingleObject(mgr->m_Mutex, INFINITE);
-
 		list<NetUser>::iterator userIter;
 		for (userIter = mgr->UserList.begin();
 			userIter != mgr->UserList.end();)
@@ -54,6 +53,7 @@ DWORD WINAPI SendThread(LPVOID param)
 int main()
 {
 	Manager mgr;
+	mgr.m_Mutex = CreateMutex(NULL, FALSE, NULL);
 	Network Net;
 	Net.InitNetwork();
 	Net.InitServer(SOCK_STREAM, 10000);

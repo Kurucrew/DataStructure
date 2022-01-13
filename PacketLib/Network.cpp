@@ -1,4 +1,5 @@
 #include "Network.h"
+
 bool Network::InitNetwork()
 {
 	WSADATA wsa;

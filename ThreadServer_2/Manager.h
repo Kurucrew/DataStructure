@@ -7,7 +7,8 @@ public:
 	HANDLE m_Mutex;
 
 	int SendMsg(SOCKET sock, UPACKET& packet);
-	int AddUser(SOCKET sock);
+	int SendMsg(SOCKET sock, char* msg, WORD type);
+	bool AddUser(SOCKET sock);
 	int RecvUser(NetUser& user);
 	int Broadcast(NetUser& user);
 

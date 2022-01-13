@@ -19,6 +19,12 @@ struct TChatMsg// 패킷의 내용을 저장하는 구조체
 	short	damage;
 	char	message[256];
 };
+
+struct SystemMsg
+{
+	char message[256];
+};
 #pragma pack(pop)
 #define PACKET_HEADER_SIZE	 4 //헤더의 크기
 #define PACKET_CHAT_MSG      1000 // 메세지의 타입
+#define PACKET_SYSTEM_MSG      1100
