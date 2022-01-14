@@ -40,12 +40,11 @@ int Manager::SendMsg(SOCKET sock, char* msg, WORD type)
 	} while (iSendSize < packet.ph.len);
 	return iSendSize;
 }
-int Manager::LogoutMsg(SOCKET sock, NetUser& user)
+int Manager::LogoutMsg(NetUser nUser, NetUser& user)
 {
-	Packet pac;
-	pac << 0 << user.m_ChattName << 0 << " ´ÔÀÌ ³ª°¬½À´Ï´Ù";
-	pac.m_uPacket.ph.type = PACKET_CHAT_MSG;
-	SendMsg(sock, pac.m_uPacket);
+	Packet pac(PACKET_CHAT_MSG);
+	pac << 1 << user.m_ChattName << (short)1 << " ´ÔÀÌ ³ª°¬½À´Ï´Ù";
+	SendMsg(nUser.m_Socket, pac.m_uPacket);
 	return 0;
 }
 bool Manager::AddUser(SOCKET sock)

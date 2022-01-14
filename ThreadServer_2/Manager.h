@@ -7,7 +7,7 @@ public:
 	HANDLE m_Mutex;
 
 	int SendMsg(SOCKET sock, UPACKET& packet);
-	int LogoutMsg(SOCKET sock, NetUser& user);
+	int LogoutMsg(NetUser nUser, NetUser& user);
 	int SendMsg(SOCKET sock, char* msg, WORD type);
 	bool AddUser(SOCKET sock);
 	int RecvUser(NetUser& user);
