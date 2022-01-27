@@ -5,6 +5,7 @@ class Packet
 {
 public:
 	char* m_pOffset;
+	char* c_str() { return m_pOffset; }
 	UPACKET m_uPacket;
 	//패킷에 데이터를 저장하고 불러오는 함수
 	void PutData(const char* pData, int iSize);

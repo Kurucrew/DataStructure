@@ -14,16 +14,10 @@ DWORD WINAPI RecvThread(LPVOID param)
 			int iRet = mgr->RecvUser(*userIter);
 			if (iRet <= 0)
 			{
-				/*list<NetUser>::iterator iter;
-				for (iter = mgr->UserList.begin();
-					iter != mgr->UserList.end();)
-				{*/
 					for (NetUser& send : mgr->UserList)
 					{
 						mgr->LogoutMsg(send, *userIter);
 					}
-					/*iter++;
-				}*/
 				userIter = mgr->UserList.erase(userIter);
 			}
 			else
@@ -66,7 +60,7 @@ int main()
 	mgr.m_Mutex = CreateMutex(NULL, FALSE, NULL);
 	Network Net;
 	Net.InitNetwork();
-	Net.InitServer(SOCK_STREAM, 10000);
+	Net.InitServer(SOCK_STREAM, 10000, 1);
 	cout << "서버 가동" << endl;
 
 	DWORD RecvThreadId;

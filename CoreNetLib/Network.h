@@ -6,6 +6,6 @@ public:
 	SOCKET m_netSock;
 	bool InitNetwork();
 	bool CloseNetwork();
-	bool InitServer(int protocol, int port, int type, const char* ip = nullptr);
+	bool InitServer(int protocol, int port, const char* ip = nullptr);
 };
 

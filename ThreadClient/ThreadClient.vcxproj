@@ -143,11 +143,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ClientMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PacketLib\PacketLib.vcxproj">
       <Project>{c00f9511-4584-4f75-b99b-d9641101e61c}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ClientMgr.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -15,7 +15,7 @@ bool Network::CloseNetwork()
 	WSACleanup();
 	return true;
 }
-bool Network::InitServer(int protocol, int port, int type, const char* ip)
+bool Network::InitServer(int protocol, int port, const char* ip)
 {
 	m_netSock = socket(AF_INET, protocol, 0);
 	SOCKADDR_IN SA;
@@ -30,21 +30,10 @@ bool Network::InitServer(int protocol, int port, int type, const char* ip)
 	{
 		SA.sin_addr.s_addr = inet_addr(ip);
 	}
-	if (type == 1)
-	{
-		int RetB = bind(m_netSock, (sockaddr*)&SA, sizeof(SA));
-		if (RetB == SOCKET_ERROR) return false;
+	int RetB = bind(m_netSock, (sockaddr*)&SA, sizeof(SA));
+	if (RetB == SOCKET_ERROR) return false;
 
-		RetB = listen(m_netSock, SOMAXCONN);
-		if (RetB == SOCKET_ERROR) return false;
-	}
-	else
-	{
-		int iRet = connect(m_netSock,(sockaddr*)&SA,sizeof(SA));
-		if (iRet == SOCKET_ERROR)
-		{
-			return false;
-		}
-	}
+	RetB = listen(m_netSock, SOMAXCONN);
+	if (RetB == SOCKET_ERROR) return false;
 	return true;
 }
